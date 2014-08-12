@@ -1,0 +1,163 @@
+## -*- coding: utf-8 -*- 
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+  <title>
+this.title
+</title>
+  <link rel="stylesheet" href="./static/css/pure-min.css">
+  <link rel="stylesheet" href="./static/css/style.css" />
+  <link rel="stylesheet" href="./static/css/pygments.css" />
+</head>
+<body>
+  <div id="main" class="pure-g">
+    <header class="sidebar pure-u-7-24">
+      <div class="top">
+        <a class="blog-title" href=""><span class="blog-desc">个人博客</span></a>
+        <ul class="menu contact">
+          <li><a href="">Github</a></li>
+        </ul>         
+      </div>
+      <div class="bottom">
+        <ul class="menu nav">
+          <li><a href="" title="">主页</a></li>
+          <li><a href="" title="">LIST</a></li>
+        </ul>
+      </div>
+    </header>
+    <section class="content pure-u-17-24">
+      <div class="content-inner">
+      
+	<article>
+		<section>
+      		<hr />
+<p>layout: post<br />
+title: "文件日常操作"<br />
+date: 2014-04-16 01:18:19 -0400<br />
+comments: true<br />
+categories:  [linux] </p>
+<hr />
+<h3>一、linux的文件的分类</h3>
+<p>文件类型:  表示符号<br />
+普通文件:              -<br />
+目录:                  d(directory)<br />
+符号链接/软链接:       l(link)<br />
+块设备:                b(block)<br />
+管道:                  p(pipe)<br />
+套接字:                s(socket)  </p>
+<h3>二、创建文件和目录</h3>
+<p>创建文件的方法很多，但是思想是差不多的。<br />
+<strong>1</strong>、用文件编辑器创建：编辑器 + 文件名，如果文件名已经存在则直接打开，如果不存在就创建自豪打开。<br />
+比如vim 123.php<br />
+<strong>2</strong>、用touch命令创建，touch命令的本意是‘触摸’一下文件，使其时间戳改变，但是如果要‘触摸’的不存在则创建该文件<br />
+<strong>3</strong>、目录其实也是文件，创建目录用mkdir命令，如:mkdir testdir，但是如果要创建一个目录的父目录没有的话，是不会成功的，必须加上一个选项<strong>-p</strong>,比如：mkdir -p /a/b/c/d，这样就看成功创建了
+<!--more--></p>
+<h3>三、查看文件内容</h3>
+<p><strong>1</strong>、cat和tac:<br />
+cat查看整个文件，将文件内容从头到尾全部打印在屏幕，如果文件很长就只能看见后面的。<br />
+tac和cat类似，将文件从未到头打印，其他与cat完全相同<br />
+<strong>2</strong>、less<br />
+这个命令比较好用，less + $filename,将文件内容从头开始打印，刚刚打印一屏。<br />
+当文件打印一屏后就有几个操作：<br />
+向下翻页：j键或者Shift+PageDown<br />
+向上翻页：k键或者Shift+PageUp<br />
+退出查看：q键  </p>
+<p>搜索关键字<br />
+   :/keyword 从头开始搜索keyword<br />
+   :?keyword 从尾向前搜索keyword<br />
+   搜索出结果之后<br />
+   小n键：朝你搜索的方向调至下一个，比如你说从头向尾搜索，则是从头向尾下一个，反之亦然。<br />
+   大N键：朝你搜索的方向调至上一个，比如你说从头向尾搜索，则是从尾向头下一个，反之亦然。<br />
+<strong>3</strong>、more<br />
+ more与less的功能和操作一样，有一个不同点。如果用less查看文件内容，不管文件内容多与少都不会自动退出文件内容页面，任何时候都可以上下翻页，直至按q键退出。more则不同，如果你已经翻页至文件尾部会自动退出退出而进入命令提示符，就不能往前翻页了。<br />
+<strong>4</strong>、head与tail<br />
+  从英文单词就看出来，一个是看头部，一个是看尾部。<br />
+  这两个命令有一个参数 -n 就是从头或从尾看出几行，如果不指定默认是10行。<br />
+  比如：head -n 5 123.php 就是查看123.php的前5行内容，也可以简写去掉n，就成了head -5 123.php,tail也是一样的。  </p>
+<h3>四、移动和复制文件</h3>
+<p><strong>1</strong>、文件复制 cp(copy简写)<br />
+这个命令要仔细讨论一下几种情况：<br />
+<strong>(1)</strong>.当要复制的文件时单个文件时<br />
+   cp /path/to/file /path/to/name<br />
+   当name为一个已经存在的文件时，则会覆盖这个文件<br />
+   当name不存在时，则复制并重命名为name<br />
+   当name为目录是，将会把file复制到name之中<br />
+<strong>(2)</strong>.当要复制的文件时多个文件时<br />
+   cp /path/to/file ... /path/to/name<br />
+   这种情况下最后的/path/to/name必须为目录，否则报错<br />
+<strong>(3)</strong>.当要复制的文件为目录时<br />
+   如果之前复制目录，那么cp会略过目录，这是就需要加一个参数 -r或-R(recursive)递归复制，ok搞定<br />
+<strong>2</strong>、移动文件<br />
+  仔细学习了cp,这个移动文件就没什么好讲的了，操作基本一样，一个保留源文件，另一个不保留源文件<br />
+  注意：这里只是介绍了移动和复制文件时的几种常见，命令的详细参数可以man一下，有详细说明  </p>
+<h3>五、删除文件</h3>
+<p>删除普通文件用rm命令，删除目录用rmdir命令，但是rmdir只能删除空目录，说很少使用，常使用rm，我们先man一下rm命令：<br />
+```bash
+  NAME<br />
+         rm - remove files or directories  </p>
+<p>SYNOPSIS<br />
+         rm [OPTION]... FILE...  </p>
+<p>DESCRIPTION<br />
+         This  manual  page  documents the GNU version of rm.  rm removes each specified file.<br />
+         By default, it does not remove directories.  </p>
+<pre><code>     If the -I or --interactive=once option is given, and there are more than three  files  
+     or the -r, -R, or --recursive are given, then rm prompts the user for whether to pro-  
+     ceed with the entire operation.  If the response is not affirmative, the entire  com-  
+     mand is aborted.
+
+     Otherwise,  if  a  file  is  unwritable,  standard input is a terminal, and the -f or  
+     --force option is not given, or the -i or --interactive=always option  is  given,  rm  
+     prompts the user for whether to remove the file.  If the response is not affirmative,  
+     the file is skipped.
+</code></pre>
+<p>```
+这个命令操作比较简单<br />
+rm 选项 要删除的文件<br />
+这里要删除的文件可以是单个文件，也可以是多个文件。<br />
+重点说说选项<br />
+删除一个普通文件无需任何参数即可<br />
+rm file<br />
+如果要删除的是目录，则会提醒你这是一个目录，然后不删除，这是需要加一个参数-r或者-R,<br />
+rm -r dirname<br />
+有时候会提示你是否删除，如果你不想看提示而直接删除则加一个参数-f(force)<br />
+rm -rf dirname  </p>
+<h3>六、技巧提升---bash通配符</h3>
+<p>在bash中支持通配符，比如*表示一个或多个字符<br />
+ls *.txt 则显示所有已.txt结尾的文件或者目录<br />
+通配符使用方法和场景都差不多，比如复制，移动，删除还有查找等<br />
+这里列出平时常用的通配符<br />
+*：任意长度的任意字符；<br />
+?: 任意单个字符；<br />
+[]: 指定范围内的任意单个字符；[a-z]<br />
+[0-9]: 所有的数字<br />
+ [a-z]：所有的小写字母<br />
+ [A-Z]：所有的大写字母<br />
+ [a-zA-Z]：所有的字母<br />
+ [0-9a-zA-Z]：所有的数字和字母  </p>
+<p>字符集合：<br />
+ [:digit:] : 所有数字, 相当于0-9<br />
+ [:lower:]:所有的小写字母<br />
+ [:upper:]:所有的大写字母<br />
+ [:alpha:]: 所有的字母<br />
+ [:alnum:]: 相当于[0-9a-zA-Z]<br />
+ [:space:]: 空白字符<br />
+ [:punct:]：所有标点符号  </p>
+<p>注意：[a-zA-Z]这类型的不区分大小写<br />
+ 字符集合中，[]是这个符号的本身，而不是上面所说的任意耽搁字符<br />
+ 比如我们要表示[0-9]则是[[:digit:]]<br />
+举例：<br />
+1.查找以数字结尾的文件<br />
+ls *[0-9]<br />
+2.查找以大写字母开头的文件<br />
+ls [[:lower:]]*  </p>
+		</section>				
+	</article>
+
+        <footer>
+          <p>Copyright <a href="">MPress</a> © 2014 • All right reserved.</p>
+        </footer>
+      <div>
+    </section>
+  </div>
+</body>

@@ -1,0 +1,14 @@
+# -*- coding: utf-8 -*- 
+{% extends "base.html" %}
+
+
+{%block main %}
+	<ul class="post-list">
+		{% for i in postlist %}
+			<li>
+				<span class="post-meta"><time datetime="">2014-8-8</time></span>
+				<h2 class="post-title"><a href="{{ i['url'] }}">{{ i['name'] }}</a></h2>
+			</li>
+		{% endfor %}
+	</ul>
+{% endblock %}

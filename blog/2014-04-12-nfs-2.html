@@ -1,0 +1,295 @@
+## -*- coding: utf-8 -*- 
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+  <title>
+this.title
+</title>
+  <link rel="stylesheet" href="./static/css/pure-min.css">
+  <link rel="stylesheet" href="./static/css/style.css" />
+  <link rel="stylesheet" href="./static/css/pygments.css" />
+</head>
+<body>
+  <div id="main" class="pure-g">
+    <header class="sidebar pure-u-7-24">
+      <div class="top">
+        <a class="blog-title" href=""><span class="blog-desc">个人博客</span></a>
+        <ul class="menu contact">
+          <li><a href="">Github</a></li>
+        </ul>         
+      </div>
+      <div class="bottom">
+        <ul class="menu nav">
+          <li><a href="" title="">主页</a></li>
+          <li><a href="" title="">LIST</a></li>
+        </ul>
+      </div>
+    </header>
+    <section class="content pure-u-17-24">
+      <div class="content-inner">
+      
+	<article>
+		<section>
+      		<hr />
+<p>layout: post<br />
+title: "一步步搭建NFS服务（2）------安装和配置"<br />
+date: 2014-04-12 06:14:20 -0400<br />
+comments: true<br />
+categories:   </p>
+<hr />
+<h3>一、需要安装的软件包</h3>
+<p>1）rpcbind :RPC的主程序，这个软件包在客户端和服务器端都需要安装<br />
+2）nfs-utils :NFS的主程序，提供nfsd和mountd等相关服务，客户端和服务端都要安装  </p>
+<h3>二、开始行动。。。</h3>
+<p><!--more--><br />
+为了便于区分客户端和服务端，我分别将主机名改为Server和Client<br />
+<code>bash  
+[root@Server ~]# hostname  
+Server  
+[root@Server ~]#</code><br />
+<code>bash  
+[root@Client ~]# hostname  
+Client  
+[root@Client ~]#</code><br />
+1）两台主机分别安装rpcbind和nfs-utils<br />
+```bash<br />
+[root@Server ~]# yum install rpcbind  </p>
+<h1>此处省略若干行#</h1>
+<h1>Dependencies Resolved</h1>
+<h1>Package                 Arch                Version                     Repository               Size</h1>
+<p>Installing:<br />
+ rpcbind                 x86_64              0.2.0-11.el6                local_repo               51 k<br />
+Installing for dependencies:<br />
+ libgssglue              x86_64              0.1-11.el6                  local_repo               23 k<br />
+ libtirpc                x86_64              0.2.1-6.el6_4               local_repo               78 k  </p>
+<h1>Transaction Summary</h1>
+<p>Install       3 Package(s)  </p>
+<h1>此处省略若干行#</h1>
+<p>Installed:<br />
+  rpcbind.x86_64 0:0.2.0-11.el6                                                                         </p>
+<p>Dependency Installed:<br />
+  libgssglue.x86_64 0:0.1-11.el6                    libtirpc.x86_64 0:0.2.1-6.el6_4                    </p>
+<p>Complete!<br />
+[root@Server ~]#<br />
+<code></code>bash<br />
+[root@Server ~]# yum install nfs-utils  </p>
+<h4>此处省略若干行</h4>
+<p>=======================================================================================================<br />
+ Package                   Arch               Version                     Repository              Size<br />
+=======================================================================================================<br />
+Installing:<br />
+ nfs-utils                 x86_64             1:1.2.3-39.el6              local_repo             320 k<br />
+Installing for dependencies:<br />
+ keyutils                  x86_64             1.4-4.el6                   local_repo              39 k<br />
+ libevent                  x86_64             1.4.13-4.el6                local_repo              66 k<br />
+ nfs-utils-lib             x86_64             1.1.5-6.el6                 local_repo              67 k  </p>
+<h1>Transaction Summary</h1>
+<p>Install       4 Package(s)  </p>
+<h4>此处省略若干行</h4>
+<p>Installed:  </p>
+<p>nfs-utils.x86_64 1:1.2.3-39.el6                                                                      </p>
+<p>Dependency Installed:<br />
+  keyutils.x86_64 0:1.4-4.el6   libevent.x86_64 0:1.4.13-4.el6   nfs-utils-lib.x86_64 0:1.1.5-6.el6  </p>
+<p>Complete!<br />
+[root@Server ~]#<br />
+```<br />
+3)分析一下安装之后生成的文件  </p>
+<p>先看看rpcbind的<br />
+```bash<br />
+[root@Client ~]# rpm -ql rpcbind<br />
+/etc/rc.d/init.d/rpcbind           #红帽系的启动脚本<br />
+/sbin/rpcbind                      #rpcbind的启动和管理命令<br />
+/usr/sbin/rpcinfo                  #查询指定主机的rpc信息  </p>
+<h4>下面都是打酱油的</h4>
+<p>/usr/share/doc/rpcbind-0.2.0<br />
+/usr/share/doc/rpcbind-0.2.0/AUTHORS<br />
+/usr/share/doc/rpcbind-0.2.0/ChangeLog<br />
+/usr/share/doc/rpcbind-0.2.0/README<br />
+/usr/share/man/man8/rpcbind.8.gz<br />
+/usr/share/man/man8/rpcinfo.8.gz<br />
+/var/cache/rpcbind<br />
+[root@Client ~]#<br />
+<code>在看看nfs-utils的</code>bash<br />
+[root@Server ~]# rpm -ql nfs-utils<br />
+/etc/nfsmount.conf<br />
+/etc/rc.d/init.d/nfs<br />
+/etc/rc.d/init.d/nfslock<br />
+/etc/rc.d/init.d/rpcgssd<br />
+/etc/rc.d/init.d/rpcidmapd<br />
+/etc/rc.d/init.d/rpcsvcgssd<br />
+/etc/request-key.d/id_resolver.conf<br />
+/etc/sysconfig/nfs<br />
+/sbin/mount.nfs<br />
+/sbin/mount.nfs4<br />
+/sbin/nfs_cache_getent<br />
+/sbin/rpc.statd<br />
+/sbin/umount.nfs<br />
+/sbin/umount.nfs4<br />
+/usr/sbin/exportfs<br />
+/usr/sbin/mountstats<br />
+/usr/sbin/nfsidmap<br />
+/usr/sbin/nfsiostat<br />
+/usr/sbin/nfsstat<br />
+/usr/sbin/rpc.gssd<br />
+/usr/sbin/rpc.idmapd<br />
+/usr/sbin/rpc.mountd<br />
+/usr/sbin/rpc.nfsd<br />
+/usr/sbin/rpc.svcgssd<br />
+/usr/sbin/rpcdebug<br />
+/usr/sbin/showmount<br />
+/usr/sbin/sm-notify<br />
+/usr/sbin/start-statd  </p>
+<h3>下面若干行省略</h3>
+<p>```<br />
+注意：有一个特特特别重要的文件上面没有列出来，那就是/etc/exports这个文件，这是这是用于配置nfs共享文件的配置，十分重要，后面详细介绍。  </p>
+<p>4）启动RPC服务和NFS服务  </p>
+<p>在启动NFS服务之前一定先启动RPC服务，so，启动rpcbind,然后用rpcinfo探测本机rpc信息。  </p>
+<p><code>bash  
+[root@Client ~]# service rpcbind start  
+Starting rpcbind:                                          [  OK  ]  
+[root@Client ~]# rpcinfo 127.0.0.1  
+   program version netid     address                service    owner  
+    100000    4    tcp6      ::.0.111               portmapper superuser  
+    100000    3    tcp6      ::.0.111               portmapper superuser  
+    100000    4    udp6      ::.0.111               portmapper superuser  
+    100000    3    udp6      ::.0.111               portmapper superuser  
+    100000    4    tcp       0.0.0.0.0.111          portmapper superuser  
+    100000    3    tcp       0.0.0.0.0.111          portmapper superuser  
+    100000    2    tcp       0.0.0.0.0.111          portmapper superuser  
+    100000    4    udp       0.0.0.0.0.111          portmapper superuser  
+    100000    3    udp       0.0.0.0.0.111          portmapper superuser  
+    100000    2    udp       0.0.0.0.0.111          portmapper superuser  
+    100000    4    local     /var/run/rpcbind.sock  portmapper superuser  
+    100000    3    local     /var/run/rpcbind.sock  portmapper superuser  
+[root@Client ~]#</code><br />
+从上面对rpcinfo中没有发现任何和NFS有关的信息，那是因为我们探测的是Client端。  </p>
+<p>好，那我们把服务端的rpcbind和NFS启动<br />
+<code>bash  
+[root@Server ~]# service rpcbind start  
+Starting rpcbind:                                          [  OK  ]  
+[root@Server ~]# service nfs start  
+Starting NFS services:                                     [  OK  ]  
+Starting NFS quotas:                                       [  OK  ]  
+Starting NFS mountd:                                       [  OK  ]  
+Starting NFS daemon:                                       [  OK  ]  
+Starting RPC idmapd:                                       [  OK  ]  
+[root@Server ~]#</code><br />
+可以看出来，当起动nfs主服务，随之一起启动的还有quotas(配额服务)，mountd(挂载和访问权限控制的)等等。  </p>
+<p>现在我们在回过头来在客户端用rpcinfo探测服务端。  </p>
+<p><code>bash  
+[root@Client ~]# rpcinfo 192.168.80.102  
+   program version netid     address                service    owner  
+    100000    4    tcp6      ::.0.111               portmapper superuser  
+    100000    3    tcp6      ::.0.111               portmapper superuser  
+    100000    4    udp6      ::.0.111               portmapper superuser  
+    100000    3    udp6      ::.0.111               portmapper superuser  
+    100000    4    tcp       0.0.0.0.0.111          portmapper superuser  
+    100000    3    tcp       0.0.0.0.0.111          portmapper superuser  
+    100000    2    tcp       0.0.0.0.0.111          portmapper superuser  
+    100000    4    udp       0.0.0.0.0.111          portmapper superuser  
+    100000    3    udp       0.0.0.0.0.111          portmapper superuser  
+    100000    2    udp       0.0.0.0.0.111          portmapper superuser  
+    100000    4    local     /var/run/rpcbind.sock  portmapper superuser  
+    100000    3    local     /var/run/rpcbind.sock  portmapper superuser  
+    100011    1    udp       0.0.0.0.3.107          rquotad    superuser  
+    100011    2    udp       0.0.0.0.3.107          rquotad    superuser  
+    100011    1    tcp       0.0.0.0.3.107          rquotad    superuser  
+    100011    2    tcp       0.0.0.0.3.107          rquotad    superuser  
+    100005    1    udp       0.0.0.0.170.4          mountd     superuser  
+    100005    1    tcp       0.0.0.0.233.174        mountd     superuser  
+    100005    1    udp6      ::.179.140             mountd     superuser  
+    100005    1    tcp6      ::.163.49              mountd     superuser  
+    100005    2    udp       0.0.0.0.166.4          mountd     superuser  
+    100005    2    tcp       0.0.0.0.201.171        mountd     superuser  
+    100005    2    udp6      ::.229.140             mountd     superuser  
+    100005    2    tcp6      ::.229.7               mountd     superuser  
+    100005    3    udp       0.0.0.0.237.110        mountd     superuser  
+    100005    3    tcp       0.0.0.0.183.5          mountd     superuser  
+    100005    3    udp6      ::.157.246             mountd     superuser  
+    100005    3    tcp6      ::.216.13              mountd     superuser  
+    100003    2    tcp       0.0.0.0.8.1            nfs        superuser  
+    100003    3    tcp       0.0.0.0.8.1            nfs        superuser  
+    100003    4    tcp       0.0.0.0.8.1            nfs        superuser  
+    100227    2    tcp       0.0.0.0.8.1            nfs_acl    superuser  
+    100227    3    tcp       0.0.0.0.8.1            nfs_acl    superuser  
+    100003    2    udp       0.0.0.0.8.1            nfs        superuser  
+    100003    3    udp       0.0.0.0.8.1            nfs        superuser  
+    100003    4    udp       0.0.0.0.8.1            nfs        superuser  
+    100227    2    udp       0.0.0.0.8.1            nfs_acl    superuser  
+    100227    3    udp       0.0.0.0.8.1            nfs_acl    superuser  
+    100003    2    tcp6      ::.8.1                 nfs        superuser  
+    100003    3    tcp6      ::.8.1                 nfs        superuser  
+    100003    4    tcp6      ::.8.1                 nfs        superuser  
+    100227    2    tcp6      ::.8.1                 nfs_acl    superuser  
+    100227    3    tcp6      ::.8.1                 nfs_acl    superuser  
+    100003    2    udp6      ::.8.1                 nfs        superuser  
+    100003    3    udp6      ::.8.1                 nfs        superuser  
+    100003    4    udp6      ::.8.1                 nfs        superuser  
+    100227    2    udp6      ::.8.1                 nfs_acl    superuser  
+    100227    3    udp6      ::.8.1                 nfs_acl    superuser  
+    100021    1    udp       0.0.0.0.231.70         nlockmgr   superuser  
+    100021    3    udp       0.0.0.0.231.70         nlockmgr   superuser  
+    100021    4    udp       0.0.0.0.231.70         nlockmgr   superuser  
+    100021    1    tcp       0.0.0.0.167.220        nlockmgr   superuser  
+    100021    3    tcp       0.0.0.0.167.220        nlockmgr   superuser  
+    100021    4    tcp       0.0.0.0.167.220        nlockmgr   superuser  
+    100021    1    udp6      ::.190.58              nlockmgr   superuser  
+    100021    3    udp6      ::.190.58              nlockmgr   superuser  
+    100021    4    udp6      ::.190.58              nlockmgr   superuser  
+    100021    1    tcp6      ::.160.232             nlockmgr   superuser  
+    100021    3    tcp6      ::.160.232             nlockmgr   superuser  
+    100021    4    tcp6      ::.160.232             nlockmgr   superuser  
+[root@Client ~]#</code><br />
+再看看是不是就多了很多信息啦，现在服务端的rpc就多了nfs相关的子服务了。  </p>
+<h3>三、配置和使用</h3>
+<p>双方的服务都搭建好了，现在就是使用吧  </p>
+<p>1）配置服务端要共享出去的目录或者分区，这个配置就是刚刚说到的/etc/exports文件了  </p>
+<p>/etc/exports配置规则：[共享目录] [客户端][权限]  </p>
+<p>[共享文件]:这个随意，如 /home/works/  </p>
+<p>[客户端]: 分享给谁，谁可以访问，这里可以使用主机ip、网络号ip还有主机名  </p>
+<p>主机ip:如192.168.80.101/24  </p>
+<p>网络号：如 192.168.80.0/24  </p>
+<p>主机名：如www.baidu.com,如果用主机名配置，可以使用通配符。如 *.baidu.com就表示任何baidu.com的三级域名都可以访问  </p>
+<p>[权限] 需要注意的是，上面的每一项都是空格分开，但是权限要紧随[客户端]后面，用括号括起来  </p>
+<p>具体的权限选项：<br />
+<strong>rw</strong>: 读写<br />
+<strong>ro</strong>: 只读 <br />
+<strong>secure</strong>: 默认已经启用；限制客户端只能使用小于1024的端口访问请求；若不加限制，则使用insecure<br />
+<strong>async</strong>: 异步写入，性能好，数据可靠性差；<br />
+<strong>sync</strong>: 同步写入，性能差，数据可靠性高；<br />
+<strong>wdelay</strong>: 写入延迟；no_wdelay<br />
+<strong>nohide</strong>: 不隐藏要导出的目录中挂载的其它nfs；<br />
+<strong>no_acl</strong>: 关闭nfs的acl功能；<br />
+<strong>root_squash</strong>: 压缩root权限, nfsnobody<br />
+<strong>no_root_squash</strong>: 不压缩root权限<br />
+<strong>all_squash</strong>：所有用户都压缩<br />
+anonuid=nfsuser,anongid=nfsgroup：使用指定的用户帐号做匿名用户帐号<br />
+现在我们就配置一下我们客户端可以访问的nfs服务  </p>
+<p><code>bash  
+/data/ 192.168.80.0/24(rw)</code><br />
+配置好exports文件后，重启nfs服务  </p>
+<p>重启完成之后我们在客户端用showmount命令检查一下服务端共享的文件<br />
+<code>bash  
+[root@Client ~]# showmount -e 192.168.80.102  
+Export list for 192.168.80.102:  
+/data 192.168.80.0/24  
+[root@Client ~]#</code><br />
+可以看到服务端共享了/data这个目录，那我们赶紧挂载使用吧。  </p>
+<p>将对方的/data/挂载到本地/nfstest/里<br />
+<code>bash  
+[root@Client ~]# mount 192.168.80.102:/data /nfstest  
+[root@Client ~]# ls /nfstest/  
+fstab  inittab  
+[root@Client ~]#</code><br />
+ok,挂载成功，可以使用了，但是真的可以使用了吗，还不一定，why?权限问题，NFS服务中，权限是个大问题，也是NFS服务中最头痛的问题，额。。。。请听下回分解。。。  </p>
+		</section>				
+	</article>
+
+        <footer>
+          <p>Copyright <a href="">MPress</a> © 2014 • All right reserved.</p>
+        </footer>
+      <div>
+    </section>
+  </div>
+</body>

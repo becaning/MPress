@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+  <title>{% block header %}{% endblock %}</title>
+  <link rel="stylesheet" href="./static/css/pure-min.css">
+  <link rel="stylesheet" href="./static/css/style.css" />
+  <link rel="stylesheet" href="./static/css/pygments.css" />
+</head>
+<body>
+  <div id="main" class="pure-g">
+    <header class="sidebar pure-u-7-24">
+      <div class="top">
+        <a class="blog-title" href=""><span class="blog-desc">个人博客</span></a>
+        <ul class="menu contact">
+          <li><a href="">Github</a></li>
+        </ul>         
+      </div>
+      <div class="bottom">
+        <ul class="menu nav">
+          <li><a href="" title="">主页</a></li>
+          <li><a href="" title="">LIST</a></li>
+        </ul>
+      </div>
+    </header>
+    <section class="content pure-u-17-24">
+      <div class="content-inner">
+      {% block main %}{% endblock %}
+        <footer>
+          <p>Copyright <a href="">MPress</a> © 2014 • All right reserved.</p>
+        </footer>
+      <div>
+    </section>
+  </div>
+</body>

@@ -1,0 +1,100 @@
+## -*- coding: utf-8 -*- 
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+  <title>
+this.title
+</title>
+  <link rel="stylesheet" href="./static/css/pure-min.css">
+  <link rel="stylesheet" href="./static/css/style.css" />
+  <link rel="stylesheet" href="./static/css/pygments.css" />
+</head>
+<body>
+  <div id="main" class="pure-g">
+    <header class="sidebar pure-u-7-24">
+      <div class="top">
+        <a class="blog-title" href=""><span class="blog-desc">个人博客</span></a>
+        <ul class="menu contact">
+          <li><a href="">Github</a></li>
+        </ul>         
+      </div>
+      <div class="bottom">
+        <ul class="menu nav">
+          <li><a href="" title="">主页</a></li>
+          <li><a href="" title="">LIST</a></li>
+        </ul>
+      </div>
+    </header>
+    <section class="content pure-u-17-24">
+      <div class="content-inner">
+      
+	<article>
+		<section>
+      		<hr />
+<p>layout: post<br />
+title: "BASH命令行快捷键"<br />
+date: 2014-05-17 03:39:09 -0400<br />
+comments: true<br />
+categories:   </p>
+<hr />
+<h3>生活在 Bash shell 中，熟记以下快捷键，将极大的提高你的命令行操作效率。</h3>
+<h3>编辑命令</h3>
+<p>Ctrl + a ：移到命令行首<br />
+Ctrl + e ：移到命令行尾<br />
+Ctrl + f ：按字符前移（右向）<br />
+Ctrl + b ：按字符后移（左向）<br />
+Alt + f ：按单词前移（右向）<br />
+Alt + b ：按单词后移（左向）<br />
+Ctrl + xx：在命令行首和光标之间移动<br />
+Ctrl + u ：从光标处删除至命令行首<br />
+Ctrl + k ：从光标处删除至命令行尾<br />
+Ctrl + w ：从光标处删除至字首<br />
+Alt + d ：从光标处删除至字尾<br />
+Ctrl + d ：删除光标处的字符<br />
+<!--more-->
+Ctrl + h ：删除光标前的字符<br />
+Ctrl + y ：粘贴至光标后<br />
+Alt + c ：从光标处更改为首字母大写的单词<br />
+Alt + u ：从光标处更改为全部大写的单词<br />
+Alt + l ：从光标处更改为全部小写的单词<br />
+Ctrl + t ：交换光标处和之前的字符<br />
+Alt + t ：交换光标处和之前的单词<br />
+Alt + Backspace：与 Ctrl + w 相同类似，分隔符有些差别  </p>
+<h3>重新执行命令</h3>
+<p>Ctrl + r：逆向搜索命令历史<br />
+Ctrl + g：从历史搜索模式退出<br />
+Ctrl + p：历史中的上一条命令<br />
+Ctrl + n：历史中的下一条命令<br />
+Alt + .：使用上一条命令的最后一个参数  </p>
+<h3>控制命令</h3>
+<p>Ctrl + l：清屏<br />
+Ctrl + o：执行当前命令，并选择上一条命令<br />
+Ctrl + s：阻止屏幕输出<br />
+Ctrl + q：允许屏幕输出<br />
+Ctrl + c：终止命令<br />
+Ctrl + z：挂起命令  </p>
+<h3>Bang (!) 命令</h3>
+<p>!!：执行上一条命令<br />
+!blah：执行最近的以 blah 开头的命令，如 !ls<br />
+!blah:p：仅打印输出，而不执行<br />
+!$：上一条命令的最后一个参数，与 Alt + . 相同<br />
+!$:p：打印输出 !$ 的内容<br />
+!<em>：上一条命令的所有参数<br />
+!</em>:p：打印输出 !* 的内容<br />
+^blah：删除上一条命令中的 blah<br />
+^blah^foo：将上一条命令中的 blah 替换为 foo<br />
+^blah^foo^：将上一条命令中所有的 blah 都替换为 foo  </p>
+<h3>友情提示：</h3>
+<p>以上介绍的大多数 Bash 快捷键仅当在 emacs 编辑模式时有效，若你将 Bash 配置为 vi 编辑模式，那将遵循 vi 的按键绑定。Bash 默认为 emacs 编辑模式。如果你的 Bash 不在 emacs 编辑模式，可通过 set -o emacs 设置。<br />
+^S、^Q、^C、^Z 是由终端设备处理的，可用 stty 命令设置。  </p>
+		</section>				
+	</article>
+
+        <footer>
+          <p>Copyright <a href="">MPress</a> © 2014 • All right reserved.</p>
+        </footer>
+      <div>
+    </section>
+  </div>
+</body>
